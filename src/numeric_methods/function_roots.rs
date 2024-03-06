@@ -1,22 +1,11 @@
-use crate::functions::f;
+use crate::functions::{derivative, precision_error, relative_error};
 
 
-pub fn bisec_method(mut a: f64, mut b: f64, epsilon: f64) -> Option<f64>
+pub fn bisec_method(f: fn(f64) -> f64, mut a: f64, mut b: f64, epsilon: f64) -> Option<f64>
 {
-    if f(a) > 0.0 && f(b) < 0.0 {
-        let tmp = a;
-        a = b;
-        b = tmp;
-    }
-
-    if f(a) > 0.0 {
-        println!("Error, invalid value for a");
-        return None;
-    }
-
-    if f(b) < 0.0 {
-        println!("Error, invalid value for a");
-        return None;
+    if f(a) * f(b) > 0.0 {
+        println!("f(a) must be negative and f(b) must be positive!");
+        return None;        
     }
 
     let mut f_root: f64;
@@ -30,7 +19,7 @@ pub fn bisec_method(mut a: f64, mut b: f64, epsilon: f64) -> Option<f64>
             b = f_root;
         }
 
-        if (b - a) / 2.0 < epsilon {
+        if precision_error(a, b) < epsilon {
             break;
         }
     }
@@ -39,27 +28,16 @@ pub fn bisec_method(mut a: f64, mut b: f64, epsilon: f64) -> Option<f64>
 }
 
 
-pub fn secant_method(mut a: f64, mut b: f64, epsilon: f64) -> Option<f64>
+pub fn secant_method()
 {
-    let mut f_root: f64;
 
-    loop {
-        let alpha = (f(b) - f(a)) / (b - a); // linear coefficient
-        let beta  = f(a) - alpha * a; // x = a -> f(a) = alpha * a + beta -> beta = f(a) - alpha * a
-        f_root = -beta / alpha; // alpha*x+beta = 0 -> x = -beta / alpha 
-
-        b = a;
-        a = f_root;
-
-        if f64::abs(b - a) / f64::max(1 as f64, f64::abs(b)) < epsilon {
-            break;
-        }
-    }
-
-    Some(f_root)
 }
 
 
+/**
+ * Calculate the square root of a floating point number with 64 bits
+ * using the secant numeric method
+ */
 pub fn sqrt(n: f64) -> Option<f64>
 {
     if n < 0.0 {
@@ -72,7 +50,7 @@ pub fn sqrt(n: f64) -> Option<f64>
     let epsilon = 1e-14;
     let mut root: f64;
 
-    let f_sqrt: fn(f64, f64) -> f64 = |x:f64, n:f64| x*x - n;
+    let f_sqrt: fn(f64, f64) -> f64 = |x, n| x*x - n;
 
     loop {
         let alpha = (f_sqrt(b, n) - f_sqrt(a, n)) / (b - a);
@@ -82,10 +60,56 @@ pub fn sqrt(n: f64) -> Option<f64>
         b = a;
         a = root;
 
-        if f64::abs(b - a) / f64::max(1.0, f64::abs(b)) < epsilon {
+        if precision_error(a, b) < epsilon {
             break;
         }
     }
 
     Some(root)
+}
+
+
+pub fn regula_falsi() -> f64
+{
+    0.0
+}
+
+
+pub fn linear_iteration_method(psi: fn(f64) -> f64, x0: f64) -> f64
+{
+    let mut xk = x0;
+    let mut xk1 = 0.0;
+    let epsilon = 1e-5;
+
+    loop {
+        xk1 = psi(xk);
+
+        if precision_error(xk, xk1) < epsilon {
+            break;
+        }
+
+        xk = xk1;
+    }
+
+    xk1
+}
+
+
+pub fn newton_method(f: fn(f64) -> f64, x0: f64) -> f64
+{
+    let mut xk = x0;
+    let mut xk1 = 0.0;
+    let epsilon = 1e-10;
+
+    loop {
+        xk1 = xk -  f(xk) / derivative(f, xk);
+
+        if precision_error(xk, xk1) < epsilon {
+            break;    
+        }
+
+        xk = xk1;
+    }
+
+    xk1
 }
