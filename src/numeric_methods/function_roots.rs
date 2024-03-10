@@ -28,11 +28,47 @@ pub fn bisec_method(f: fn(f64) -> f64, mut a: f64, mut b: f64, epsilon: f64) -> 
 }
 
 
-pub fn secant_method()
+pub fn secant_method(f: fn(f64) -> f64, mut a: f64, mut b: f64) -> f64
 {
+    let e = 1e-14;
+    let mut c: f64; // stores the function root
 
+    loop {
+        let alpha = (f(b) - f(a)) / (b - a);
+        let beta = f(a) - alpha * a;
+        c = -beta / alpha;
+        b = a;
+        a = c;
+
+        if precision_error(a, b) < e {
+            break
+        }
+    }
+
+    c
 }
 
+
+pub fn secant(f: fn(f64) -> f64, x0: f64, x1: f64) -> f64
+{
+    let mut xk = x0;
+    let mut xk1 = x1;
+    let mut xk2 = 0.0;
+    let epsilon = 1e-14;
+
+    loop {
+        xk2 = (xk * f(xk1) - xk1 * f(xk)) / (f(xk1) - f(xk));
+
+        if precision_error(xk1, xk2) < epsilon {
+            break
+        }
+
+        xk = xk1;
+        xk1 = xk2;
+    }
+
+    xk2
+}
 
 /**
  * Calculate the square root of a floating point number with 64 bits
@@ -69,9 +105,33 @@ pub fn sqrt(n: f64) -> Option<f64>
 }
 
 
-pub fn regula_falsi() -> f64
+pub fn regula_falsi(f: fn(f64) -> f64, x0: f64, x1: f64) -> f64
 {
-    0.0
+    if f(x0) * f(x1) > 0.0 {
+        println!("f(a) must be negative and f(b) must be positive!");
+        return 0.0;      
+    }
+
+    let epsilon = 1e-14;
+    let mut xk  = x0;
+    let mut xk1 = x1;
+    let mut xk2 = 0.0;
+
+    loop {
+        xk2 = (xk * f(xk1) - xk1 * f(xk)) / (f(xk1) - f(xk)); // secant method formula
+
+        if precision_error(xk, xk2) < epsilon || precision_error(xk1, xk2) < epsilon {
+            break;
+        }
+
+        if f(xk2) * f(xk1) < 0.0 {
+            xk = xk2;
+        } else {
+            xk1 = xk2;
+        }
+    }
+
+    xk2
 }
 
 

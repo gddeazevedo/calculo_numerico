@@ -7,10 +7,13 @@ mod functions;
 use numeric_methods::function_roots::{
     bisec_method,
     // secant_method,
+    secant,
     sqrt,
     linear_iteration_method,
     newton_method
 };
+
+use crate::numeric_methods::function_roots::regula_falsi;
 
 
 fn f(x: f64) -> f64
@@ -27,14 +30,17 @@ fn main() {
     let x_bisec = bisec_method(f, 0.0, 10.0, 1e-12).unwrap_or(0.0);
     println!("Bissection: x = {} f(x) = {}", x_bisec, f(x_bisec));
 
-    // let x_secant = secant_method(f, 0.0, 10.0, 1e-11).unwrap_or(0.0);
-    // println!("Secant: x = {} f(x) = {}", x_secant, f(x_secant));
+    let x_secant = secant(f, 0.0, 10.0);
+    println!("Secant: x = {} f(x) = {}", x_secant, f(x_secant));
 
     println!("sqrt(144) = {}", sqrt(144.0).unwrap());
 
     println!("Root of f(x) = x*x - x - 2 is {}",
         linear_iteration_method(|x| f64::sqrt(2.0 + x), 2.5));
 
-    let x_newton = newton_method(f1, 1.0);
-    println!("Newton: x = {} f(x) = {}", x_newton, f1(x_newton));
+    let x_newton = newton_method(f, 1.0);
+    println!("Newton: x = {} f(x) = {}", x_newton, f(x_newton));
+
+    let x_regula_falsi = regula_falsi(f, 0.0, 5.0);
+    println!("Regula Falsi: x = {} f(x) = {}", x_regula_falsi, f(x_regula_falsi));
 }
