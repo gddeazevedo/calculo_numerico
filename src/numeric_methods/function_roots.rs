@@ -1,6 +1,10 @@
 use crate::functions::{derivative, precision_error, relative_error};
 
 
+/**
+ * Finds the root of a one varible scalar function using the bisection numeric method
+ * I = [a, b] -> f(a) * f(b) < 0, means that f has a root f(x) = 0
+ */
 pub fn bisec_method(f: fn(f64) -> f64, mut a: f64, mut b: f64, epsilon: f64) -> Option<f64>
 {
     if f(a) * f(b) > 0.0 {
@@ -28,6 +32,10 @@ pub fn bisec_method(f: fn(f64) -> f64, mut a: f64, mut b: f64, epsilon: f64) -> 
 }
 
 
+/**
+ * Finds the root of a one varible scalar function using the secant numeric method
+ * 
+ */
 pub fn secant_method(f: fn(f64) -> f64, mut a: f64, mut b: f64) -> f64
 {
     let e = 1e-14;
@@ -49,6 +57,10 @@ pub fn secant_method(f: fn(f64) -> f64, mut a: f64, mut b: f64) -> f64
 }
 
 
+/**
+ * Finds the root of a one varible scalar function using the secant numeric method
+ * 
+ */
 pub fn secant(f: fn(f64) -> f64, x0: f64, x1: f64) -> f64
 {
     let mut xk = x0;
@@ -105,6 +117,10 @@ pub fn sqrt(n: f64) -> Option<f64>
 }
 
 
+/**
+ * Finds the root of a one varible scalar function using the Regula-Falsi numeric method
+ * 
+ */
 pub fn regula_falsi(f: fn(f64) -> f64, x0: f64, x1: f64) -> f64
 {
     if f(x0) * f(x1) > 0.0 {
@@ -135,6 +151,10 @@ pub fn regula_falsi(f: fn(f64) -> f64, x0: f64, x1: f64) -> f64
 }
 
 
+/**
+ * Finds the root of a one varible scalar function using the linear iteration numeric method
+ * 
+ */
 pub fn linear_iteration_method(psi: fn(f64) -> f64, x0: f64) -> f64
 {
     let mut xk = x0;
@@ -155,6 +175,10 @@ pub fn linear_iteration_method(psi: fn(f64) -> f64, x0: f64) -> f64
 }
 
 
+/**
+ * Finds the root of a one varible scalar function using the Newton numeric method
+ * 
+ */
 pub fn newton_method(f: fn(f64) -> f64, x0: f64) -> f64
 {
     let mut xk = x0;
