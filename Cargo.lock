@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "calc_num"
+name = "numeric_calc"
 version = "0.1.0"
