@@ -1,4 +1,4 @@
-use crate::functions::{derivative, precision_error, relative_error};
+use crate::helpers::{derivative, precision_error, relative_error};
 
 
 /**
