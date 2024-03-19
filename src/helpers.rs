@@ -29,6 +29,7 @@ pub fn relative_error(a: f64, b: f64) -> f64
 pub fn get_identity_matrix(n: usize) -> Matrix<f64>
 {
     let mut j = 0;
+
     let i = vec![
         vec![0.0; n]; n
     ]
