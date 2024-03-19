@@ -1,4 +1,6 @@
-use crate::types::Matrix;
+use crate::{exact_methods::helpers::print_matrix, types::Matrix};
+use super::helpers::{ choose_best_pivot, transpose };
+
 
 /**
  * 
@@ -188,35 +190,6 @@ pub fn gaussian_elimination(a: &Matrix<f64>, b: &Vec<f64>) -> (Matrix<f64>, Vec<
 
 
 /**
- * Chooses the element with greatest absolute value as pivot of a column
- */
-fn choose_best_pivot(a: &mut Matrix<f64>, b: &mut Vec<f64>, k: usize) {
-    let n = b.len();
-    let mut max_element = f64::abs(a[k][k]);
-    let mut max_index   = k;
-
-    for line in (k + 1)..n {
-        if f64::abs(a[line][k]) > max_element {
-            max_element = f64::abs(a[line][k]);
-            max_index   = line;
-        }
-    }
-
-    if k != max_index {
-        // swaps the line k with the line max_index which contains the max pivot
-
-        let tmp = a[k].clone();
-        a[k] = a[max_index].clone();
-        a[max_index] = tmp;
-
-        let tmp = b[k];
-        b[k] = b[max_index];
-        b[max_index] = tmp;
-    }
-}
-
-
-/**
  * Gaussian elimination method to create an upper triangular matrix, using partial pivot
  */
 pub fn partial_pivot_gaussian_elimination(a: &Matrix<f64>, b: &Vec<f64>) -> (Matrix<f64>, Vec<f64>)
@@ -264,4 +237,49 @@ pub fn gaussian_compact_solver(a: &mut Matrix<f64>) -> Vec<f64>
     let mut x = vec![0.0; a.len()];
 
     x
+}
+
+
+/**
+ * 
+ */
+pub fn cholesky_method(a: &Matrix<f64>) -> (Matrix<f64>, Matrix<f64>)
+{
+    let n = a.len();
+
+    let mut g = vec![
+        vec![0.0; n]; n
+    ];
+
+    for i in 0..n {
+        for j in 0..n {
+            let mut s = 0.0;
+
+            if i == j {
+                for k in 0..i {
+                    s += g[i][k] * g[i][k];
+                }
+
+                g[i][i] = f64::sqrt(a[i][i] - s);
+            } else if i > j {
+                for k in 0..j {
+                    s += g[i][k] * g[j][k];
+                }
+
+                g[i][j] = (a[i][j] - s) / g[j][j];
+            }
+        }
+    }
+
+    let gt = transpose(&g);
+
+    (g, gt)
+}
+
+
+pub fn cholesky_solver(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
+{
+    let (g, gt) = cholesky_method(a);
+    let y = solve_inf(&g, b);
+    solve_sup(&gt, &y)
 }
