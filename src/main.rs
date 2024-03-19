@@ -1,16 +1,12 @@
 #![allow(dead_code, unused)]
 
 mod numeric_methods;
-mod helpers;
 mod exact_methods;
 mod types;
 
 use exact_methods::linear_systems_solvers::{
     gaussian_solver, lu_decomp, lu_solver, matmat, matvec, solve_inf, solve_sup
 };
-
-use crate::helpers::get_identity_matrix;
-
 
 fn main() {
 

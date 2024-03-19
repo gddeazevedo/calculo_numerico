@@ -24,22 +24,3 @@ pub fn relative_error(a: f64, b: f64) -> f64
 {
     f64::abs(b - a) / f64::abs(b)
 }
-
-
-pub fn get_identity_matrix(n: usize) -> Matrix<f64>
-{
-    let mut j = 0;
-
-    let i = vec![
-        vec![0.0; n]; n
-    ]
-        .into_iter()
-        .map(|mut line| {
-            line[j] = 1.0;
-            j += 1;
-            line
-        })
-        .collect();
-
-    i
-}

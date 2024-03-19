@@ -1,5 +1,5 @@
 pub mod function_roots;
-
+pub mod helpers;
 
 use function_roots::{
     bisec_method,
