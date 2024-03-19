@@ -1,4 +1,4 @@
-use crate::numeric_methods::helpers::{derivative, precision_error, relative_error};
+use super::helpers::{derivative, precision_error, relative_error};
 
 
 /**
