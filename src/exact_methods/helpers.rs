@@ -29,7 +29,7 @@ pub fn get_identity_matrix(n: usize) -> Matrix<f64>
 pub fn choose_best_pivot(a: &mut Matrix<f64>, b: &mut Vec<f64>, k: usize) {
     let n = b.len();
     let mut max_element = f64::abs(a[k][k]);
-    let mut max_index   = k;
+    let mut max_index = k;
 
     for line in (k + 1)..n {
         if f64::abs(a[line][k]) > max_element {

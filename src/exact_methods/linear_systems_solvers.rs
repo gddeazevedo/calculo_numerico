@@ -232,16 +232,18 @@ pub fn gaussian_solver(a: &Matrix<f64>, b: &Vec<f64>, partial_pivot: bool) -> Ve
 }
 
 
-pub fn gaussian_compact_solver(a: &mut Matrix<f64>) -> Vec<f64>
+/**
+ * 
+ */
+pub fn gaussian_compact(a: &mut Matrix<f64>) -> Vec<f64>
 {
-    let mut x = vec![0.0; a.len()];
-
-    x
+    vec![]
 }
 
 
 /**
- * 
+ * Returns two matrices, G (lower triangular) and G transpose (upper triangular)
+ * The cholesky method only works for matrices that are simetric and positive definite
  */
 pub fn cholesky_method(a: &Matrix<f64>) -> (Matrix<f64>, Matrix<f64>)
 {
