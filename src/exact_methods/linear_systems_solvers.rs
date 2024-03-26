@@ -119,6 +119,9 @@ pub fn lu_solver(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
 
 /**
  * Gaussian elimination method to create an upper triangular matrix
+ * Returns a superior triangular matrix and a vector that are equivalent to the
+ * original ones passed as arguments
+ * This function does not change the original vector and matrix
  */
 pub fn gaussian_elimination(a: &Matrix<f64>, b: &Vec<f64>) -> (Matrix<f64>, Vec<f64>)
 {
