@@ -2,6 +2,54 @@ use crate::types::Matrix;
 
 
 /**
+ * Returns the vector that results from the product between
+ * a matrix n x n and a vector of dimension n
+ */
+pub fn matvec(a: &Matrix<f64>, v: &Vec<f64>) -> Vec<f64>
+{
+    let mut x: Vec<f64> = vec![0.0; v.len()];
+    let n = v.len();
+
+    for i in 0..n {
+        let mut sum = 0.0;
+
+        for j in 0..n {
+            sum += a[i][j] * v[j];
+        }
+
+        x[i] = sum; 
+    }
+
+    x
+}
+
+
+/**
+ * Return the product of two matrices
+ */
+pub fn matmat(a: &Matrix<f64>, b: &Matrix<f64>) -> Matrix<f64>
+{
+    let n = a.len();
+    let mut c = vec![vec![0.0; n]; n];
+
+    for i in 0..n {
+        
+        for j in 0..n {
+            let mut sum = 0.0;
+            
+            for k in 0..n {
+                sum += a[i][k] * b[k][j];
+            }
+
+            c[i][j] = sum;
+        }
+    }
+
+    c
+}
+
+
+/**
  * Returns a n x n identity matrix
  */
 pub fn get_identity_matrix(n: usize) -> Matrix<f64>

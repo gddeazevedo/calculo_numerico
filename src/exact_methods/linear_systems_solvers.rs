@@ -59,54 +59,6 @@ pub fn solve_sup(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
 
 
 /**
- * Returns the vector that results from the product between
- * a matrix n x n and a vector of dimension n
- */
-pub fn matvec(a: &Matrix<f64>, v: &Vec<f64>) -> Vec<f64>
-{
-    let mut x: Vec<f64> = vec![0.0; v.len()];
-    let n = v.len();
-
-    for i in 0..n {
-        let mut sum = 0.0;
-
-        for j in 0..n {
-            sum += a[i][j] * v[j];
-        }
-
-        x[i] = sum; 
-    }
-
-    x
-}
-
-
-/**
- * Return the product of two matrices
- */
-pub fn matmat(a: &Matrix<f64>, b: &Matrix<f64>) -> Matrix<f64>
-{
-    let n = a.len();
-    let mut c = vec![vec![0.0; n]; n];
-
-    for i in 0..n {
-        
-        for j in 0..n {
-            let mut sum = 0.0;
-            
-            for k in 0..n {
-                sum += a[i][k] * b[k][j];
-            }
-
-            c[i][j] = sum;
-        }
-    }
-
-    c
-}
-
-
-/**
  * Decompose a square matrix A (n x n) into two square triangular matrices
  * Returns:
  *  - L (lower triangular matrix)
@@ -235,10 +187,25 @@ pub fn gaussian_solver(a: &Matrix<f64>, b: &Vec<f64>, partial_pivot: bool) -> Ve
 /**
  * 
  */
-pub fn gaussian_compact(a: &mut Matrix<f64>) -> Vec<f64>
-{
-    vec![]
-}
+// pub fn gaussian_compact(a: &mut Matrix<f64>) -> Vec<f64>
+// {
+//     let n = a.len();
+//     let mut m = vec![vec![0.0; n]; n];
+
+//     m[0] = a[0].clone();
+
+//     for i in 0..n {
+//         for j in 0..n {
+//             if i <= j {
+
+//             } else {
+
+//             }
+//         }
+//     }
+
+//     m
+// }
 
 
 /**
