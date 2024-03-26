@@ -57,14 +57,15 @@ pub fn choose_best_pivot(a: &mut Matrix<f64>, b: &mut Vec<f64>, k: usize) {
  */
 pub fn transpose(a: &Matrix<f64>) -> Matrix<f64>
 {
-    let n = a.len();
+    let lines = a.len();
+    let cols = a[0].len();
 
     let mut at = vec![
-        vec![0.0; n]; n
+        vec![0.0; cols]; lines
     ];
 
-    for i in 0..n {
-        for j in 0..n {
+    for i in 0..cols {
+        for j in 0..lines {
             at[i][j] = a[j][i];
         }
     }
