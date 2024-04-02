@@ -266,19 +266,16 @@ pub fn cholesky_solver(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
 
 pub fn lu_solver_solution_refinement(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
 {
-    let n = a.len();
-    let mut r = b.clone();
-    let mut x = vec![0.0; n];
     let epsilon = 1e-10;
+    let n = a.len();
 
-    loop {
+    let mut x = lu_solver(a, b);
+    let mut r = subvec(b, &matvec(a, &x));
+
+    while vecnorm(&r) >= epsilon {
         let y = lu_solver(a, &r);
         x = addvec(&x, &y);
         r = subvec(b, &matvec(a, &x));
-
-        if vecnorm(&r) < epsilon {
-            break;
-        }
     }
 
     x
