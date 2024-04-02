@@ -1,5 +1,13 @@
-use crate::{exact_methods::helpers::print_matrix, types::Matrix};
-use super::helpers::{ choose_best_pivot, transpose };
+use crate::types::Matrix;
+use super::helpers::{
+    choose_best_pivot,
+    transpose,
+    matvec,
+    addvec,
+    subvec,
+    print_matrix,
+    vecnorm
+};
 
 
 /**
@@ -254,4 +262,24 @@ pub fn cholesky_solver(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
     let (g, gt) = cholesky_method(a);
     let y = solve_inf(&g, b);
     solve_sup(&gt, &y)
+}
+
+pub fn lu_solver_solution_refinement(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
+{
+    let n = a.len();
+    let mut r = b.clone();
+    let mut x = vec![0.0; n];
+    let epsilon = 1e-10;
+
+    loop {
+        let y = lu_solver(a, &r);
+        x = addvec(&x, &y);
+        r = subvec(b, &matvec(a, &x));
+
+        if vecnorm(&r) < epsilon {
+            break;
+        }
+    }
+
+    x
 }

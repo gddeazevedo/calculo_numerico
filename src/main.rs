@@ -5,22 +5,24 @@ mod exact_methods;
 mod types;
 
 use exact_methods::linear_systems_solvers::{
-    cholesky_solver, matvec,
+    cholesky_solver, gaussian_elimination, gaussian_solver, lu_decomp
 };
+use types::Matrix;
+use exact_methods::helpers::{ transpose, print_matrix, matmat };
+use exact_methods::linear_systems_solvers::{lu_solver, solve_inf, solve_sup, lu_solver_solution_refinement};
 
-use exact_methods::helpers::{ transpose, print_matrix };
+use crate::exact_methods::helpers::vecnorm;
 
-use crate::exact_methods::linear_systems_solvers::{gaussian_solver, lu_solver};
 
 
 fn main() {
-    let a = vec![
-        vec![4.0, 2.0, -4.0],
-        vec![2.0, 10.0, 4.0],
-        vec![-4.0, 4.0, 9.0]
+    let mut a = vec![
+        vec![16.0, 5.0],
+        vec![3.0,  2.5]
     ];
 
-    let b = vec![0.0, 6.0, 5.0];
-    let x = cholesky_solver(&a, &b);
+    let b = vec![21.0, 5.5];
+    let x = lu_solver_solution_refinement(&a, &b);
+
     println!("{:?}", x);
 }
