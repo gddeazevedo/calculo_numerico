@@ -81,13 +81,11 @@ pub fn subvec(u: &Vec<f64>, v: &Vec<f64>) -> Vec<f64>
 }
 
 
+/**
+ * Returns the Euclidean norm of a vector
+ */
 pub fn vecnorm(v: &Vec<f64>) -> f64 {
-    let mut norm = 0.0;
-
-    for i in v {
-        norm += i * i;
-    }
-
+    let norm: f64 = v.into_iter().map(|component| component * component).sum();
     f64::sqrt(norm)
 }
 
