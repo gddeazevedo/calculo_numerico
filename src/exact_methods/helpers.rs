@@ -50,6 +50,49 @@ pub fn matmat(a: &Matrix<f64>, b: &Matrix<f64>) -> Matrix<f64>
 
 
 /**
+ * Returns the sum of two vector
+ */
+pub fn addvec(u: &Vec<f64>, v: &Vec<f64>) -> Vec<f64>
+{
+    let n = u.len();
+    let mut x = vec![0.0; n];
+
+    for i in 0..n {
+        x[i] = u[i] + v[i];
+    }
+
+    x
+}
+
+
+/**
+ * Returns the subtraction of two vectors
+ */
+pub fn subvec(u: &Vec<f64>, v: &Vec<f64>) -> Vec<f64>
+{
+    let n = u.len();
+    let mut x = vec![0.0; n];
+
+    for i in 0..n {
+        x[i] = u[i] - v[i];
+    }
+
+    x
+}
+
+
+pub fn vecnorm(v: &Vec<f64>) -> f64 {
+    let mut norm = 0.0;
+
+    for i in v {
+        norm += i * i;
+    }
+
+    f64::sqrt(norm)
+}
+
+
+/**
  * Returns a n x n identity matrix
  */
 pub fn get_identity_matrix(n: usize) -> Matrix<f64>
@@ -109,7 +152,7 @@ pub fn transpose(a: &Matrix<f64>) -> Matrix<f64>
     let cols = a[0].len();
 
     let mut at = vec![
-        vec![0.0; cols]; lines
+        vec![0.0; lines]; cols
     ];
 
     for i in 0..cols {
