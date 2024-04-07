@@ -5,7 +5,7 @@ mod exact_methods;
 mod types;
 
 use exact_methods::linear_systems_solvers::{
-    cholesky_solver, gaussian_elimination, gaussian_solver, lu_decomp
+    cholesky_solver, gaussian_elimination, gaussian_solver, inverse, lu_decomp
 };
 use types::Matrix;
 use exact_methods::helpers::{ transpose, print_matrix, matmat };
@@ -16,13 +16,14 @@ use crate::exact_methods::helpers::vecnorm;
 
 
 fn main() {
-    let mut a = vec![
-        vec![16.0, 5.0],
-        vec![3.0,  2.5]
+    let a = vec![
+        vec![1.0, 3.0, 9.0],
+        vec![1.0, 1.0, 3.0],
+        vec![1.0, 1.0, 1.0],
     ];
 
-    let b = vec![21.0, 5.5];
-    let x = lu_solver_solution_refinement(&a, &b);
+    let inverse = inverse(&a);
 
-    println!("{:?}", x);
+    print_matrix(&inverse);
+    print_matrix(&matmat(&a, &inverse));
 }
