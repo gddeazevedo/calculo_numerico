@@ -1,6 +1,5 @@
 use crate::types::Matrix;
 
-
 /**
  * Returns the vector that results from the product between
  * a matrix n x n and a vector of dimension n
@@ -87,6 +86,28 @@ pub fn subvec(u: &Vec<f64>, v: &Vec<f64>) -> Vec<f64>
 pub fn vecnorm(v: &Vec<f64>) -> f64 {
     let norm: f64 = v.into_iter().map(|component| component * component).sum();
     f64::sqrt(norm)
+}
+
+
+/**
+ * Returns the infinity norm of a n x n matrix
+ * ||A|| = max, 1 <= i<= n ( sum(a\[i\]\[j\]), 1 <= j <= n )
+ */
+pub fn infinity_norm(a: &Matrix<f64>) -> f64 {
+    let n = a.len();
+    let abs = |el: &f64| f64::abs(*el);
+
+    let mut max: f64 = (&a[0]).into_iter().map(abs).sum();
+
+    for i in 1..n {
+        let sum = (&a[i]).into_iter().map(abs).sum();
+
+        if sum > max {
+            max = sum;
+        }
+    }
+
+    max
 }
 
 
