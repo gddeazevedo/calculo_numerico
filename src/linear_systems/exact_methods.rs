@@ -6,7 +6,9 @@ use super::helpers::{
     print_matrix,
     subvec,
     transpose,
-    vecnorm
+    vecnorm,
+    cholesky_method,
+    lu_decomp,
 };
 
 
@@ -63,50 +65,6 @@ pub fn solve_sup(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
     }
 
     x
-}
-
-
-/**
- * Decompose a square matrix A (n x n) into two square triangular matrices
- * Returns:
- *  - L (lower triangular matrix)
- *  - U (upper triangular matrix)
- */
-pub fn lu_decomp(a: &Matrix<f64>) -> (Matrix<f64>, Matrix<f64>)
-{
-    let n = a.len();
-
-    let mut l = vec![
-        vec![0.0; n]; n
-    ];
-
-    let mut u = vec![
-        vec![0.0; n]; n
-    ];
-
-    for i in 0..n {
-        l[i][i] = 1.0;
-
-        for j in 0..n {
-            let mut sum = 0.0;
-            
-            if i <= j {
-                for k in 0..i {
-                    sum += l[i][k] * u[k][j];
-                }
-
-                u[i][j] = a[i][j] - sum;
-            } else {
-                for k in 0..j {
-                    sum += l[i][k] * u[k][j];
-                }
-
-                l[i][j] = (a[i][j] - sum) / u[j][j];
-            }
-        }
-    }
-
-    (l, u)
 }
 
 
@@ -217,44 +175,6 @@ pub fn gaussian_solver(a: &Matrix<f64>, b: &Vec<f64>, partial_pivot: bool) -> Ve
 
 //     m
 // }
-
-
-/**
- * Returns two matrices, G (lower triangular) and G transpose (upper triangular)
- * The cholesky method only works for matrices that are simetric and positive definite
- */
-pub fn cholesky_method(a: &Matrix<f64>) -> (Matrix<f64>, Matrix<f64>)
-{
-    let n = a.len();
-
-    let mut g = vec![
-        vec![0.0; n]; n
-    ];
-
-    for i in 0..n {
-        for j in 0..n {
-            let mut s = 0.0;
-
-            if i == j {
-                for k in 0..i {
-                    s += g[i][k] * g[i][k];
-                }
-
-                g[i][i] = f64::sqrt(a[i][i] - s);
-            } else if i > j {
-                for k in 0..j {
-                    s += g[i][k] * g[j][k];
-                }
-
-                g[i][j] = (a[i][j] - s) / g[j][j];
-            }
-        }
-    }
-
-    let gt = transpose(&g);
-
-    (g, gt)
-}
 
 
 pub fn cholesky_solver(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
