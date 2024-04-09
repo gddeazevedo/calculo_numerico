@@ -289,9 +289,9 @@ pub fn inverse(a: &Matrix<f64>) -> Matrix<f64> {
             e[j] = if i == j { 1.0 } else { 0.0 }; // column  j of identity matrix
         }
 
-        let b = lu_solver(a, &e);
+        let col = lu_solver(a, &e);
 
-        inverse_t.push(b);
+        inverse_t.push(col);
     }
 
     transpose(&inverse_t)
