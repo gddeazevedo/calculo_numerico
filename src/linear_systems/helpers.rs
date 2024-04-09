@@ -48,6 +48,20 @@ pub fn matmat(a: &Matrix<f64>, b: &Matrix<f64>) -> Matrix<f64>
 }
 
 
+pub fn matsum(a: &Matrix<f64>, b: &Matrix<f64>) -> Matrix<f64> {
+    let n = a.len();
+    let mut c = vec![vec![0.0; n]; n];
+
+    for i in 0..n {
+        for j in 0..n {
+            c[i][j] = a[i][j] + b[i][j];
+        }
+    }
+
+    c
+}
+
+
 /**
  * Returns the sum of two vector
  */
@@ -267,6 +281,31 @@ pub fn cholesky_method(a: &Matrix<f64>) -> (Matrix<f64>, Matrix<f64>)
 
 
 /**
+ * Decompose a square matrix A in two matrices L* (upper) and R* (lower) and the vector b*
+ * where A* = L* + I + R*
+ * A* is the matrix A with each row divided by the correspondent main diagonal element
+ */
+pub fn lrb_star_decomp(a: &Matrix<f64>, b: &Vec<f64>) -> (Matrix<f64>, Matrix<f64>, Vec<f64>)
+{
+    let n = a.len();
+    let mut l_star: Matrix<f64> = vec![vec![0.0; n]; n];
+    let mut r_star: Matrix<f64> = vec![vec![0.0; n]; n];
+    let mut b_star = vec![0.0; n];
+
+    for i in 0..n {
+        for j in 0..n {
+            l_star[i][j] = if i > j { a[i][j] / a[i][i] } else { 0.0 };
+            r_star[i][j] = if i < j { a[i][j] / a[i][i] } else { 0.0 };
+        }
+
+        b_star[i] = b[i] / a[i][i];
+    }
+
+    (l_star, r_star, b_star)
+}
+
+
+/**
  * Decompose a square matrix A in two matrices L* (upper) and R* (lower)
  * where A* = L* + I + R*
  * A* is the matrix A with each row divided by the correspondent main diagonal element
@@ -276,7 +315,6 @@ pub fn lr_star_decomp(a: &Matrix<f64>) -> (Matrix<f64>, Matrix<f64>)
     let n = a.len();
     let mut l_star: Matrix<f64> = vec![vec![0.0; n]; n];
     let mut r_star: Matrix<f64> = vec![vec![0.0; n]; n];
-
 
     for i in 0..n {
         for j in 0..n {
