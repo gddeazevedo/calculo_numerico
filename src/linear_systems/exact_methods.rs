@@ -1,6 +1,12 @@
 use crate::types::Matrix;
 use super::helpers::{
-    addvec, choose_best_pivot, infinity_norm, matvec, print_matrix, subvec, transpose, vecnorm
+    addvec,
+    choose_best_pivot,
+    infinity_norm, matvec,
+    print_matrix,
+    subvec,
+    transpose,
+    vecnorm
 };
 
 
