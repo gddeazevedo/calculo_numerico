@@ -9,9 +9,6 @@ mod linear_systems;
 mod types;
 
 
-
-
-
 fn main() {
     let a = vec![
         vec![5.0, 1.0, 1.0],
