@@ -156,25 +156,25 @@ pub fn gaussian_solver(a: &Matrix<f64>, b: &Vec<f64>, partial_pivot: bool) -> Ve
 /**
  * 
  */
-// pub fn gaussian_compact(a: &mut Matrix<f64>) -> Vec<f64>
-// {
-//     let n = a.len();
-//     let mut m = vec![vec![0.0; n]; n];
+pub fn gaussian_compact(a: &mut Matrix<f64>, b: &mut Vec<f64>)
+{
+    let n = a.len();
 
-//     m[0] = a[0].clone();
+    for k in 0..(n-1) {
+        for i in (k + 1)..n {
+            let p = a[i][k] / a[k][k];
+            b[i] = b[i] - b[k] * p;
 
-//     for i in 0..n {
-//         for j in 0..n {
-//             if i <= j {
-
-//             } else {
-
-//             }
-//         }
-//     }
-
-//     m
-// }
+            for j in k..n {
+                if i > j {
+                    a[i][j] = p;
+                } else {
+                    a[i][j] = a[i][j] - a[k][j] * p;
+                }
+            }
+        }
+    }
+}
 
 
 pub fn cholesky_solver(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
