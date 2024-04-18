@@ -83,6 +83,14 @@ pub fn lu_solver(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
 }
 
 
+
+fn lu_solver_refine(l: &Matrix<f64>, u: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64> {
+    let y = solve_inf(l, b);
+    solve_sup(u, &y)
+}
+
+
+
 /**
  * Gaussian elimination method to create an upper triangular matrix
  * Returns a superior triangular matrix and a vector that are equivalent to the
@@ -190,11 +198,13 @@ pub fn lu_solver_solution_refinement(a: &Matrix<f64>, b: &Vec<f64>) -> Vec<f64>
     let epsilon = 1e-10;
     let n = a.len();
 
-    let mut x = lu_solver(a, b);
+    let (l, u) = lu_decomp(a);
+
+    let mut x = lu_solver_refine(&l, &u, b);
     let mut r = subvec(b, &matvec(a, &x)); // r = b - Ax
 
     while vecnorm(&r) >= epsilon {
-        let y = lu_solver(a, &r); // Ay = r
+        let y = lu_solver_refine(&l, &u, b); // Ay = r
         x = addvec(&x, &y);
         r = subvec(b, &matvec(a, &x));
     }
@@ -208,6 +218,8 @@ pub fn inverse(a: &Matrix<f64>) -> Matrix<f64> {
 
     let mut inverse_t: Matrix<f64> = vec![]; // tranpose of the inverse matrix, its rows are the columns of the inverse
 
+    let (l, u) = lu_decomp(a);
+
     for i in 0..n {
         let mut e: Vec<f64> = vec![0.0; n];
 
@@ -215,7 +227,7 @@ pub fn inverse(a: &Matrix<f64>) -> Matrix<f64> {
             e[j] = if i == j { 1.0 } else { 0.0 }; // column  j of identity matrix
         }
 
-        let col = lu_solver(a, &e);
+        let col = lu_solver_refine(&l, &u, &e);
 
         inverse_t.push(col);
     }
