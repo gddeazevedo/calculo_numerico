@@ -52,6 +52,6 @@ pub fn power_method(a: &Matrix<f64>) -> f64 {
         }
         la = lp;
     }
-    
+
     lp[0]
 }
