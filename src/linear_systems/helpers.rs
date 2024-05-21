@@ -104,6 +104,38 @@ pub fn vecnorm(v: &Vec<f64>) -> f64 {
 
 
 /**
+ * Returns the division of two vectors, component by component
+ */
+pub fn divdot(u: &Vec<f64>, v: &Vec<f64>) -> Vec<f64> {
+    let n = u.len();
+    let mut x = vec![0.0; n];
+
+    for i in 0..n {
+        x[i] = u[i] / v[i];
+    }
+
+    x
+}
+
+
+/**
+ * Returns the infinity norm of a vector
+ */
+pub fn infinity_vecnorm(v: &Vec<f64>) -> f64 {
+    let abs = |el: &f64| f64::abs(*el);
+    v.into_iter().map(abs).fold(f64::NEG_INFINITY, f64::max)
+}
+
+
+/**
+ * Returns the scalar multiplication of a vector
+ */
+pub fn scalar_mul(v: &Vec<f64>, scalar: f64) -> Vec<f64> {
+    v.iter().map(|el| el * scalar).collect()
+}
+
+
+/**
  * Returns the infinity norm of a n x n matrix
  * ||A|| = max, 1 <= i<= n ( sum(a\[i\]\[j\]), 1 <= j <= n )
  */
@@ -122,6 +154,20 @@ pub fn infinity_norm(a: &Matrix<f64>) -> f64 {
     }
 
     max
+}
+
+
+/**
+ * Returns the trace of a matrix
+ */
+pub fn tr(a: &Matrix<f64>) -> f64 {
+    let mut sum = 0.0;
+
+    for i in 0..a.len() {
+        sum += a[i][i];
+    }
+
+    sum
 }
 
 
