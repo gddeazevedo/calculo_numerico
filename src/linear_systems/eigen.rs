@@ -1,6 +1,6 @@
 use std::vec;
 
-use super::helpers::{matmat, matvec, divdot, tr};
+use super::helpers::{divdot, infinity_vecnorm, matmat, matvec, scalar_mul, subvec, tr};
 use crate::types::Matrix;
 
 
@@ -35,7 +35,7 @@ pub fn leverrier(a: &Matrix<f64>) -> Vec<f64> {
 /**
  * The power method is an iterative method to find the largest eigenvalue of a matrix
  */
-pub fn power_method(a: &Matrix<f64>) {
+pub fn power_method(a: &Matrix<f64>) -> f64 {
     let n = a.len();
     let mut y = vec![1.0; n];
     let mut la = vec![0.0; n];
@@ -45,6 +45,13 @@ pub fn power_method(a: &Matrix<f64>) {
     loop {
         let z = matvec(a, &y);
         lp = divdot(&z, &y);
-        
+        y = scalar_mul(&z, 1.0 / infinity_vecnorm(&z));
+
+        if infinity_vecnorm(&subvec(&lp, &la)) / infinity_vecnorm(&lp) < epsilon {
+            break;
+        }
+        la = lp;
     }
+    
+    lp[0]
 }
