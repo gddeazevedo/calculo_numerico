@@ -73,7 +73,7 @@ pub fn rutishauser(a: &Matrix<f64>) -> Vec<f64> {
         }
     }
 
-    let mut i: i8 = -1;
+    let mut i: i64 = -1;
 
     a_.into_iter().map(|row| {
         i += 1;
