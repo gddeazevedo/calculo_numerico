@@ -1,6 +1,6 @@
 use std::vec;
 
-use super::helpers::{divdot, infinity_vecnorm, matmat, matvec, scalar_mul, subvec, tr};
+use super::helpers::{divdot, infinity_vecnorm, lu_decomp, matmat, matvec, max_abs_value_in_inferior_triangle, scalar_mul, subvec, tr};
 use crate::types::Matrix;
 
 
@@ -54,4 +54,29 @@ pub fn power_method(a: &Matrix<f64>) -> f64 {
     }
 
     lp[0]
+}
+
+
+/**
+ * Returns all the eigenvalues of a matrix using the QR algorithm
+ */
+pub fn rutishauser(a: &Matrix<f64>) -> Vec<f64> {
+    let n = a.len();
+    let mut a_ = a.clone();
+
+    loop {
+        let (l, u) = lu_decomp(&a_);
+        a_ = matmat(&u, &l);
+
+        if max_abs_value_in_inferior_triangle(&a_) < 1e-6 {
+            break;
+        }
+    }
+
+    let mut i: i8 = -1;
+
+    a_.into_iter().map(|row| {
+        i += 1;
+        row[i as usize]
+    }).collect()
 }

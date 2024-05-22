@@ -1,4 +1,4 @@
-pub mod exact_methods;
+pub mod eigen;
 pub mod iterative_methods;
 pub mod helpers;
-pub mod eigen;
+pub mod exact_methods;

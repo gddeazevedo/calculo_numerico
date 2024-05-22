@@ -172,6 +172,23 @@ pub fn tr(a: &Matrix<f64>) -> f64 {
 
 
 /**
+ * Returns the maximum absolute value in the inferior triangle of a matrix
+ */
+pub fn max_abs_value_in_inferior_triangle(a: &Matrix<f64>) -> f64 {
+    let n = a.len();
+    let mut max = f64::NEG_INFINITY;
+
+    for i in 1..n {
+        for j in 0..i {
+            max = f64::max(max, f64::abs(a[i][j]));
+        }
+    }
+
+    max
+}
+
+
+/**
  * Returns a n x n identity matrix
  */
 pub fn get_identity_matrix(n: usize) -> Matrix<f64>
