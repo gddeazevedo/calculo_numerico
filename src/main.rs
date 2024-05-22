@@ -2,7 +2,7 @@
 
 use crate::linear_algebra::helpers::print_matrix;
 
-mod numeric_methods;
+mod calculus;
 mod linear_algebra;
 mod types;
 
