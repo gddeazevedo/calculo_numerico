@@ -58,15 +58,15 @@ pub fn power_method(a: &Matrix<f64>) -> f64 {
 
 
 /**
- * Returns all the eigenvalues of a matrix using the QR algorithm
+ * Returns all the eigenvalues of a matrix using the LR algorithm
  */
 pub fn rutishauser(a: &Matrix<f64>) -> Vec<f64> {
     let n = a.len();
     let mut a_ = a.clone();
 
     loop {
-        let (l, u) = lu_decomp(&a_);
-        a_ = matmat(&u, &l);
+        let (l, r) = lu_decomp(&a_);
+        a_ = matmat(&r, &l);
 
         if max_abs_value_in_inferior_triangle(&a_) < 1e-6 {
             break;
