@@ -8,18 +8,5 @@ mod types;
 
 
 fn main() {
-    let a = vec![
-        vec![2., 0., 1.],
-        vec![0., 1., 0.],
-        vec![1., 0., 1.]
-    ];
-
-    let eigenvalues = linear_algebra::eigen::rutishauser(&a);
-
-    println!("Eigenvalues:");
-    for eigenvalue in &eigenvalues {
-        println!("{}", eigenvalue);
-    }
-
-    print_matrix(&a);
+    println!("Hello, world")
 }
