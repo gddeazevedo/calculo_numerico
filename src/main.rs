@@ -1,25 +1,36 @@
 #![allow(unused)]
 
-use crate::linear_algebra::helpers::print_matrix;
-
 mod calculus;
 mod linear_algebra;
 mod types;
 
 
+use calculus::integration::{
+    integrate_left, integrate_middle, integrate_right, integrate_trapezoid
+};
+
+
 fn main() {
-    let a = vec![
-        vec![2., 0., 1.],
-        vec![0., 1., 0.],
-        vec![1., 0., 1.]
-    ];
+    let a = 0.;
+    let b = 1.;
+    let n = 100000;
 
-    let eigenvalues = linear_algebra::eigen::rutishauser(&a);
+    let result = integrate_left( f, a, b, n );
+    println!( "Result left: {}", result );
 
-    println!("Eigenvalues:");
-    for eigenvalue in &eigenvalues {
-        println!("{}", eigenvalue);
-    }
+    let result = integrate_right( f, a, b, n );
+    println!( "Result right: {}", result );
 
-    print_matrix(&a);
+    let result = integrate_middle( f, a, b, n );
+    println!( "Result middle: {}", result );
+
+    let result = integrate_trapezoid(f, a, b, n);
+    println!( "Result trapezoid: {}", result );
+
+    println!( "Result exact: {}", std::f64::consts::PI ); 
+}
+
+
+fn f(x: f64) -> f64 {
+    4. / (x*x + 1.)
 }
