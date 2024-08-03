@@ -13,21 +13,21 @@ use calculus::integration::{
 fn main() {
     let a = 0.;
     let b = 1.;
-    let n = 100000;
+    let n = 1000;
 
     let result = integrate_left( f, a, b, n );
-    println!( "Result left: {}", result );
+    println!( "ESQ: {}", result );
 
     let result = integrate_right( f, a, b, n );
-    println!( "Result right: {}", result );
+    println!( "DIR: {}", result );
 
     let result = integrate_middle( f, a, b, n );
-    println!( "Result middle: {}", result );
+    println!( "CEN: {}", result );
 
     let result = integrate_trapezoid(f, a, b, n);
-    println!( "Result trapezoid: {}", result );
+    println!( "TRA: {}", result );
 
-    println!( "Result exact: {}", std::f64::consts::PI ); 
+    println!( "PI : {}", std::f64::consts::PI ); 
 }
 
 
