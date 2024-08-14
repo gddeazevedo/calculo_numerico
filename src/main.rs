@@ -5,9 +5,9 @@ mod linear_algebra;
 mod types;
 
 
-use calculus::integration::{
-    integrate_left, integrate_middle, integrate_right, integrate_trapezoid
-};
+use calculus::{helpers::relative_error, integration::{
+    integrate_left, integrate_middle, integrate_right, integrate_trapezoid, integreate_simpson
+}};
 
 
 fn main() {
@@ -27,7 +27,13 @@ fn main() {
     let result = integrate_trapezoid(f, a, b, n);
     println!( "TRA: {}", result );
 
-    println!( "PI : {}", std::f64::consts::PI ); 
+    let result = integreate_simpson(f, a, b, n);
+    println!("SIM: {}", result);
+
+    println!( "PI : {}", std::f64::consts::PI );
+
+    let error = relative_error(result, std::f64::consts::PI);
+    println!("SIM ERROR: {error}");
 }
 
 

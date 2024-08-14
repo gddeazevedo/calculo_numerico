@@ -71,3 +71,26 @@ pub fn integrate_trapezoid(f: fn(f64) -> f64, a: f64, b: f64, n: u32) -> f64
 
     sum * delta_x / 2.
 }
+
+
+/**
+ * Integrates the function f using the one third Simpon method
+ * (h / 3) * ( f( x0 ) + f( x2N ) +  4*sum( f( x2i-1 ), i, N ) + 2 * sum( f( x2i ), 1, N - 1 ) )
+ * h = ( x2n - x0 ) / 2N 
+ */
+pub fn integreate_simpson(f: fn(f64) -> f64, x0: f64, x2n: f64, n: u32) -> f64 {
+    let h = ( x2n - x0 ) / ( 2. * n as f64 );
+    let mut sum = f( x0 ) + f( x2n );
+
+    for i in 1..=n {
+        let x_odd = x0 + (2. * i as f64 - 1.) * h;
+        sum += 4. * f( x_odd );
+    }
+
+    for i in 1..n {
+        let x_even = x0 + (2. * i as f64) * h;
+        sum += 2. * f( x_even );
+    }
+
+    h * sum / 3.
+}
