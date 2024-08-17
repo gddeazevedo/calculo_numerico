@@ -37,23 +37,28 @@ pub fn leverrier(a: &Matrix<f64>) -> Vec<f64> {
  */
 pub fn power_method(a: &Matrix<f64>) -> f64 {
     let n = a.len();
-    let mut y = vec![1.0; n];
-    let mut la = vec![0.0; n];
-    let mut lp = vec![0.0; n];
-    let epsilon = 1e-6;
+    let epsilon = 1e-100;
+
+    let mut y = vec![1.; n]; // y[0]
+    let mut z = matvec( a, &y ); // z[1]
+
+    let mut l1 = z[0] / y[0];
+    let mut laux = l1;
 
     loop {
-        let z = matvec(a, &y);
-        lp = divdot(&z, &y);
-        y = scalar_mul(&z, 1.0 / infinity_vecnorm(&z));
+        y = scalar_mul( &z, 1. / infinity_vecnorm( &z ) ); // y[k]
+        z = matvec( a, &y ); // z[k + 1]
 
-        if infinity_vecnorm(&subvec(&lp, &la)) / infinity_vecnorm(&lp) < epsilon {
+        l1 = z[0] / y[0];
+
+        if f64::abs( l1 - laux ) / f64::abs( laux ) < epsilon {
             break;
         }
-        la = lp;
+
+        laux = l1
     }
 
-    lp[0]
+    l1
 }
 
 
