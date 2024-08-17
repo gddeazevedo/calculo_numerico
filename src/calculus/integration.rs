@@ -83,14 +83,14 @@ pub fn integreate_simpson(f: fn(f64) -> f64, x0: f64, x2n: f64, n: u32) -> f64 {
     let mut sum = f( x0 ) + f( x2n );
 
     for i in 1..=n {
-        let x_odd = x0 + (2. * i as f64 - 1.) * h;
+        let x_odd  = x0 + ( 2. * i as f64 - 1. ) * h;
         sum += 4. * f( x_odd );
     }
 
     for i in 1..n {
-        let x_even = x0 + (2. * i as f64) * h;
+        let x_even = x0 + 2. * i as f64 * h;
         sum += 2. * f( x_even );
     }
 
-    h * sum / 3.
+    sum * h / 3.
 }
