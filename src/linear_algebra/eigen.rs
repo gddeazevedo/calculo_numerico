@@ -46,8 +46,9 @@ pub fn power_method(a: &Matrix<f64>) -> f64 {
     let mut laux = l1;
 
     loop {
-        y = scalar_mul( &z, 1. / infinity_vecnorm( &z ) ); // y[k]
-        z = matvec( a, &y ); // z[k + 1]
+        let alpha = infinity_vecnorm( &z );
+        y = scalar_mul( &z, 1. / alpha ); // y[k] = z[k] / alpha
+        z = matvec( a, &y ); // z[k + 1] = A*y[k]
 
         l1 = z[0] / y[0];
 
