@@ -1,6 +1,3 @@
-use num::{ToPrimitive, FromPrimitive};
-use std::iter::Sum;
-
 /**
  * Finds the a and b that fits a line as close as possible to the points (x[i], y[i])
  */
