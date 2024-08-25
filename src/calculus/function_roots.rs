@@ -1,5 +1,5 @@
-use super::helpers::{derivative, precision_error, relative_error};
-
+use super::helpers::{precision_error, relative_error};
+use super::differentiation::derivative;
 
 /**
  * Finds the root of a one varible scalar function using the bisection numeric method

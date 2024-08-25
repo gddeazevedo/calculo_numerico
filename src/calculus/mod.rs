@@ -1,6 +1,7 @@
 pub mod function_roots;
 pub mod helpers;
 pub mod integration;
+pub mod differentiation;
 
 use function_roots::{
     bisec_method,
