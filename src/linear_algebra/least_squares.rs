@@ -1,3 +1,9 @@
+use crate::types::Matrix;
+use super::{
+    exact_methods::lu_solver,
+    helpers::{matmat, matvec, mean, transpose}
+};
+
 /**
  * Finds the a and b that fits a line as close as possible to the points (x[i], y[i])
  */
@@ -10,7 +16,7 @@ pub fn linear_regression(x: &Vec<f64>, y: &Vec<f64>) -> (f64, f64) {
     let mean_x = mean(x);
     let mean_y = mean(y);
 
-    let mut numerator = 0.;
+    let mut numerator   = 0.;
     let mut denominator = 0.;
 
     for i in 0..n {
@@ -25,8 +31,12 @@ pub fn linear_regression(x: &Vec<f64>, y: &Vec<f64>) -> (f64, f64) {
 }
 
 /**
- * Returns the mean of a collection of items
+ * Finds the vector beta that better fits the line to the points (x[1][i], x[2][i], ..., x[k][i], y[i]); i = 1, 2, ..., n
  */
-fn mean(x: &Vec<f64>) -> f64 {
-    x.iter().sum::<f64>() / x.len() as f64
+pub fn linear_multiple_regression(x: &Matrix<f64>, y: &Vec<f64>, n: u8) -> Vec<f64> {
+    let x_t   = transpose(x);
+    let x_t_x = matmat( &x_t, x );
+    let x_t_y = matvec( &x_t, y );
+
+    lu_solver(&x_t_x, &x_t_y)
 }

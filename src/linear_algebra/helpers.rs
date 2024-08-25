@@ -398,3 +398,11 @@ pub fn print_matrix(a: &Matrix<f64>) {
         println!("{:?}", line);
     }
 }
+
+/**
+ * Returns the mean of a collection of items
+ */
+pub fn mean(x: &Vec<f64>) -> f64 {
+    x.iter().sum::<f64>() / x.len() as f64
+}
+
