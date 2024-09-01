@@ -397,6 +397,7 @@ pub fn print_matrix(a: &Matrix<f64>) {
     for line in a {
         println!("{:?}", line);
     }
+    println!("\n");
 }
 
 /**
